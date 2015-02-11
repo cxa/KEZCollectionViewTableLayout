@@ -42,7 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		061C313BBB904DC78D31E33F /* Pods-KEZCollectionViewTableLayoutTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KEZCollectionViewTableLayoutTests.xcconfig"; path = "Pods/Pods-KEZCollectionViewTableLayoutTests.xcconfig"; sourceTree = "<group>"; };
 		26B0BA2D9F28462C8C1EBAEF /* libPods-KEZCollectionViewTableLayoutTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KEZCollectionViewTableLayoutTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F492C43D111405AA7A7E511 /* libPods-KZCollectionViewTableLayoutTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KZCollectionViewTableLayoutTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F0729A3186542E800D3412D /* KEZTableLayoutCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KEZTableLayoutCellDelegate.h; sourceTree = "<group>"; };
@@ -79,6 +78,8 @@
 		7FBB7B36186E479D000A3059 /* KEZCornerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KEZCornerCell.m; sourceTree = "<group>"; };
 		7FBB7B38186E59C5000A3059 /* KEZSampleTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KEZSampleTableViewController.h; sourceTree = "<group>"; };
 		7FBB7B39186E59C5000A3059 /* KEZSampleTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KEZSampleTableViewController.m; sourceTree = "<group>"; };
+		B86635910632CF9668B7719F /* Pods-KEZCollectionViewTableLayoutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KEZCollectionViewTableLayoutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KEZCollectionViewTableLayoutTests/Pods-KEZCollectionViewTableLayoutTests.release.xcconfig"; sourceTree = "<group>"; };
+		DB12AA76ED6412DD3DBAECE7 /* Pods-KEZCollectionViewTableLayoutTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KEZCollectionViewTableLayoutTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KEZCollectionViewTableLayoutTests/Pods-KEZCollectionViewTableLayoutTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +107,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F02B258AF18FBF42ECC7EC1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DB12AA76ED6412DD3DBAECE7 /* Pods-KEZCollectionViewTableLayoutTests.debug.xcconfig */,
+				B86635910632CF9668B7719F /* Pods-KEZCollectionViewTableLayoutTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		7F1B56C9185663BC000DF816 = {
 			isa = PBXGroup;
 			children = (
@@ -113,7 +123,7 @@
 				7F1B56FA185663BD000DF816 /* KEZCollectionViewTableLayoutTests */,
 				7F1B56D4185663BC000DF816 /* Frameworks */,
 				7F1B56D3185663BC000DF816 /* Products */,
-				061C313BBB904DC78D31E33F /* Pods-KEZCollectionViewTableLayoutTests.xcconfig */,
+				6F02B258AF18FBF42ECC7EC1 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -243,7 +253,7 @@
 		7F1B56CA185663BC000DF816 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "James Richard";
 				TargetAttributes = {
 					7F1B56D1185663BC000DF816 = {
@@ -307,7 +317,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-KEZCollectionViewTableLayoutTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KEZCollectionViewTableLayoutTests/Pods-KEZCollectionViewTableLayoutTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E892618DC21E4A4BA6993607 /* Check Pods Manifest.lock */ = {
@@ -395,7 +405,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -435,7 +444,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -498,9 +506,8 @@
 		};
 		7F1B5708185663BD000DF816 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 061C313BBB904DC78D31E33F /* Pods-KEZCollectionViewTableLayoutTests.xcconfig */;
+			baseConfigurationReference = DB12AA76ED6412DD3DBAECE7 /* Pods-KEZCollectionViewTableLayoutTests.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KEZCollectionViewTableLayout.app/KEZCollectionViewTableLayout";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -522,9 +529,8 @@
 		};
 		7F1B5709185663BD000DF816 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 061C313BBB904DC78D31E33F /* Pods-KEZCollectionViewTableLayoutTests.xcconfig */;
+			baseConfigurationReference = B86635910632CF9668B7719F /* Pods-KEZCollectionViewTableLayoutTests.release.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KEZCollectionViewTableLayout.app/KEZCollectionViewTableLayout";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

@@ -164,7 +164,7 @@ NSString * const KEZCollectionViewTableLayoutDecorationViewCornerCell = @"KEZCol
 
 #pragma mark - Handling Bounds Changes
 - (BOOL) shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
-  if (self.stickyHeaders && [self hasHeaderSizing]) {
+  if ([self hasStickyHeader] && [self hasHeaderSizing]) {
     CGPoint origin = self.collectionView.bounds.origin;
     CGPoint newOrigin = newBounds.origin;
     CGFloat xDiff = newOrigin.x - origin.x;
@@ -300,7 +300,16 @@ NSString * const KEZCollectionViewTableLayoutDecorationViewCornerCell = @"KEZCol
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:section];
         UICollectionViewLayoutAttributes *attributes = rowHeaderAttributes[indexPath] ?: [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:KEZCollectionViewTableLayoutSupplementaryViewRowHeader withIndexPath:indexPath];
         CGFloat height = [sizing heightForRow:section];
-        CGFloat xOffset = self.stickyHeaders ? CGRectGetMinX(self.collectionView.bounds) + self.collectionView.contentInset.left : 0;
+        CGFloat xOffset;
+        if (self.rowHeaderStickType == KEZCollectionViewTableLayoutHeaderStickNever) {
+          xOffset = 0;
+        } else {
+          xOffset = CGRectGetMinX(self.collectionView.bounds) + self.collectionView.contentInset.left;
+          if (self.rowHeaderStickType == KEZCollectionViewTableLayoutHeaderStickWhenOverlap) {
+            xOffset = xOffset > 0 ? xOffset : 0;
+          }
+        }
+        
         attributes.frame = CGRectMake(xOffset, yOffset, sizing.rowHeaderWidth, height);
         attributes.zIndex = 100;
         rowHeaderAttributes[indexPath] = attributes;
@@ -314,7 +323,16 @@ NSString * const KEZCollectionViewTableLayoutDecorationViewCornerCell = @"KEZCol
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
         UICollectionViewLayoutAttributes *attributes = columnHeaderAttributes[indexPath] ?: [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:KEZCollectionViewTableLayoutSupplementaryViewColumnHeader withIndexPath:indexPath];
         CGFloat width = [sizing widthForColumn:row];
-        CGFloat yOffset = self.stickyHeaders ? CGRectGetMinY(self.collectionView.bounds) + self.collectionView.contentInset.top : 0;
+        CGFloat yOffset;
+        if (self.columnHeaderStickType == KEZCollectionViewTableLayoutHeaderStickNever) {
+          yOffset = 0;
+        } else {
+          yOffset = CGRectGetMinY(self.collectionView.bounds) + self.collectionView.contentInset.top;
+          if (self.columnHeaderStickType == KEZCollectionViewTableLayoutHeaderStickWhenOverlap) {
+            yOffset = yOffset > 0 ? yOffset : 0;
+          }
+        }
+        
         attributes.frame = CGRectMake(xOffset, yOffset, width, sizing.columnHeaderHeight);
         attributes.zIndex = 200;
         columnHeaderAttributes[indexPath] = attributes;
@@ -336,8 +354,25 @@ NSString * const KEZCollectionViewTableLayoutDecorationViewCornerCell = @"KEZCol
   if (self.hasRegisteredCellCornerDecorationView && sizing.columnHeaderHeight > 0 && sizing.rowHeaderWidth > 0) {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:KEZCollectionViewTableLayoutDecorationViewCornerCell withIndexPath:indexPath];
-    CGFloat x = self.stickyHeaders ? CGRectGetMinX(self.collectionView.bounds) + self.collectionView.contentInset.left : 0;
-    CGFloat y = self.stickyHeaders ? CGRectGetMinY(self.collectionView.bounds) + self.collectionView.contentInset.top : 0;
+    CGFloat x, y;
+    if (self.rowHeaderStickType == KEZCollectionViewTableLayoutHeaderStickNever) {
+      x = 0;
+    } else {
+      x = CGRectGetMinX(self.collectionView.bounds) + self.collectionView.contentInset.left;
+      if (self.rowHeaderStickType == KEZCollectionViewTableLayoutHeaderStickWhenOverlap) {
+        x = x > 0 ? x : 0;
+      }
+    }
+    
+    if (self.columnHeaderStickType == KEZCollectionViewTableLayoutHeaderStickNever) {
+      y = 0;
+    } else {
+      y = CGRectGetMinY(self.collectionView.bounds) + self.collectionView.contentInset.top;
+      if (self.columnHeaderStickType == KEZCollectionViewTableLayoutHeaderStickWhenOverlap) {
+        y = y > 0 ? y : 0;
+      }
+    }
+    
     attributes.frame = CGRectMake(x, y, sizing.rowHeaderWidth, sizing.columnHeaderHeight);
     attributes.zIndex = 500;
     cellCornerAttributes[indexPath] = attributes;
@@ -413,6 +448,10 @@ NSString * const KEZCollectionViewTableLayoutDecorationViewCornerCell = @"KEZCol
 
 - (BOOL) hasHeaderSizing {
   return [self hasColumnHeaderSizing] || [self hasRowHeaderSizing];
+}
+
+- (BOOL) hasStickyHeader {
+  return self.columnHeaderStickType != KEZCollectionViewTableLayoutHeaderStickNever || self.rowHeaderStickType != KEZCollectionViewTableLayoutHeaderStickNever;
 }
 
 - (BOOL) hasColumnHeaderSizing {

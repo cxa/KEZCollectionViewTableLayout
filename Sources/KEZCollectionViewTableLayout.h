@@ -12,13 +12,21 @@ extern NSString * const KEZCollectionViewTableLayoutSupplementaryViewColumnHeade
 extern NSString * const KEZCollectionViewTableLayoutSupplementaryViewRowHeader;
 extern NSString * const KEZCollectionViewTableLayoutDecorationViewCornerCell;
 
+typedef NS_ENUM(NSInteger, KEZCollectionViewTableLayoutHeaderStickType){
+  KEZCollectionViewTableLayoutHeaderStickNever = 0,
+  KEZCollectionViewTableLayoutHeaderStickWhenOverlap,
+  KEZCollectionViewTableLayoutHeaderStickAlways
+};
+
 @interface KEZCollectionViewTableLayout : UICollectionViewLayout
 @property (nonatomic) CGSize cellSize;
 @property (nonatomic) CGFloat columnHeaderHeight;
 @property (nonatomic) CGFloat rowHeaderWidth;
 @property (nonatomic) CGSize minimumCellSize;
 @property (nonatomic) CGSize maximumCellSize;
-@property (nonatomic) BOOL stickyHeaders;
+@property (nonatomic) KEZCollectionViewTableLayoutHeaderStickType columnHeaderStickType;
+@property (nonatomic) KEZCollectionViewTableLayoutHeaderStickType rowHeaderStickType;
+
 @end
 
 @protocol KEZCollectionViewDelegateTableLayout <UICollectionViewDelegate>

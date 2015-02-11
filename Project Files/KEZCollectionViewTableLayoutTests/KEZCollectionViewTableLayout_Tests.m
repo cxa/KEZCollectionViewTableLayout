@@ -61,23 +61,23 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
 
 #pragma mark - Registering Decoration Views
 - (void) testRegisteringClassForCornerCell_allowsCornerCellUse {
-  [self configureLayoutWithCellSize:CGSizeMake(50.0f, 50.0f) withRows:@[@2, @5] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:NO contentInsets:UIEdgeInsetsZero cornerCell:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(50.0f, 50.0f) withRows:@[@2, @5] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:nil contentInsets:UIEdgeInsetsZero cornerCell:YES];
   assertThat([self.layout layoutAttributesForDecorationViewOfKind:KEZCollectionViewTableLayoutDecorationViewCornerCell atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]], notNilValue());
 }
 
 - (void) testUnregisteringClassForCornerCell_removesCornerCellAttributes {
-  [self configureLayoutWithCellSize:CGSizeMake(50.0f, 50.0f) withRows:@[@2, @5] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:NO contentInsets:UIEdgeInsetsZero cornerCell:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(50.0f, 50.0f) withRows:@[@2, @5] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:nil contentInsets:UIEdgeInsetsZero cornerCell:YES];
   [self unregisterCornerCellUsingNib:NO];
   assertThat([self.layout layoutAttributesForDecorationViewOfKind:KEZCollectionViewTableLayoutDecorationViewCornerCell atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]], nilValue());
 }
 
 - (void) testRegisteringNibForCornerCell_allowsCornerCellUse {
-  [self configureLayoutWithCellSize:CGSizeMake(50.0f, 50.0f) withRows:@[@2, @5] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:NO contentInsets:UIEdgeInsetsZero cornerCell:YES cornerCellAsNib:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(50.0f, 50.0f) withRows:@[@2, @5] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:nil contentInsets:UIEdgeInsetsZero cornerCell:YES cornerCellAsNib:YES];
   assertThat([self.layout layoutAttributesForDecorationViewOfKind:KEZCollectionViewTableLayoutDecorationViewCornerCell atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]], notNilValue());
 }
 
 - (void) testUnregisteringNibForCornerCell_removesCornerCellAttributes {
-  [self configureLayoutWithCellSize:CGSizeMake(50.0f, 50.0f) withRows:@[@2, @5] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:NO contentInsets:UIEdgeInsetsZero cornerCell:YES cornerCellAsNib:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(50.0f, 50.0f) withRows:@[@2, @5] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:nil contentInsets:UIEdgeInsetsZero cornerCell:YES cornerCellAsNib:YES];
   [self unregisterCornerCellUsingNib:YES];
   assertThat([self.layout layoutAttributesForDecorationViewOfKind:KEZCollectionViewTableLayoutDecorationViewCornerCell atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]], nilValue());
 }
@@ -407,7 +407,7 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
 #pragma mark With Sticky Headers
 
 - (void) testLayoutAttributesForSupplementaryViewOfKindColumnHeader_withStickyHeaders_withoutDelegate_whenMovedSticksToBounds {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3] columnHeaderHeight:100.0f rowHeaderWidth:0 stickyHeaders:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3] columnHeaderHeight:100.0f rowHeaderWidth:0 stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) }];
   [self moveCollectionViewToOffset:CGPointMake(0, 100)];
   UICollectionViewLayoutAttributes *expected;
   expected = [self columnHeaderLayoutAttributesWithColumn:0 withFrame:CGRectMake(0, 100, 200, 100)];
@@ -419,7 +419,7 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
 }
 
 - (void) testLayoutAttributesForSupplementaryViewOfKindColumnHeader_withStickyHeaders_withInsets_withoutDelegate_isBoundsPlusInsets {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3] columnHeaderHeight:100.0f rowHeaderWidth:0 stickyHeaders:YES contentInsets:UIEdgeInsetsMake(64, 0, 0, 0)];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3] columnHeaderHeight:100.0f rowHeaderWidth:0 stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) } contentInsets:UIEdgeInsetsMake(64, 0, 0, 0)];
 
   UICollectionViewLayoutAttributes *expected;
   expected = [self columnHeaderLayoutAttributesWithColumn:0 withFrame:CGRectMake(0, 0, 200, 100)];
@@ -431,7 +431,7 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
 }
 
 - (void) testLayoutAttributesForSupplementaryViewOfKindRowHeader_withStickyHeaders_withoutDelegate_whenMovedSticksToBounds {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3, @1, @2] columnHeaderHeight:0.0f rowHeaderWidth:100.0f stickyHeaders:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3, @1, @2] columnHeaderHeight:0.0f rowHeaderWidth:100.0f stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) }];
   [self moveCollectionViewToOffset:CGPointMake(100, 0)];
   UICollectionViewLayoutAttributes *expected;
   expected = [self rowHeaderLayoutAttributesWithRow:0 withFrame:CGRectMake(100, 0, 100, 200)];
@@ -443,7 +443,7 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
 }
 
 - (void) testLayoutAttributesForSupplementaryViewOfKindRowHeader_withStickyHeaders_withInsets_withoutDelegate_isBoundsPlusInsets {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3, @1, @2] columnHeaderHeight:0.0f rowHeaderWidth:100.0f stickyHeaders:YES contentInsets:UIEdgeInsetsMake(0, 44, 0, 0)];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3, @1, @2] columnHeaderHeight:0.0f rowHeaderWidth:100.0f stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) } contentInsets:UIEdgeInsetsMake(0, 44, 0, 0)];
   UICollectionViewLayoutAttributes *expected;
   expected = [self rowHeaderLayoutAttributesWithRow:0 withFrame:CGRectMake(0, 0, 100, 200)];
   assertThat([self.layout layoutAttributesForSupplementaryViewOfKind:KEZCollectionViewTableLayoutSupplementaryViewRowHeader atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]], equalTo(expected));
@@ -470,7 +470,7 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
 }
 
 - (void) testLayoutAttributesForDecorationViewOfKindCornerCell_withBothHeaders_isExpectedSizing {
-  [self configureLayoutWithCellSize:CGSizeMake(50.0f, 50.0f) withRows:@[@2, @5] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:NO contentInsets:UIEdgeInsetsZero cornerCell:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(50.0f, 50.0f) withRows:@[@2, @5] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:nil contentInsets:UIEdgeInsetsZero cornerCell:YES];
   UICollectionViewLayoutAttributes *expected = [self cellCornerLayoutAttributesWithFrame:CGRectMake(0, 0, 100.0f, 100.0f)];
   assertThat([self.layout layoutAttributesForDecorationViewOfKind:KEZCollectionViewTableLayoutDecorationViewCornerCell atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]], equalTo(expected));
 }
@@ -481,21 +481,21 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
 }
 
 - (void) testLayoutAttributesForDecorationViewCellCorner_withStickyHeaders_whenMoved_sticksToBounds {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3, @1, @2] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:YES contentInsets:UIEdgeInsetsZero cornerCell:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3, @1, @2] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) } contentInsets:UIEdgeInsetsZero cornerCell:YES];
   [self moveCollectionViewToOffset:CGPointMake(100, 50)];
   UICollectionViewLayoutAttributes *expected = [self cellCornerLayoutAttributesWithFrame:CGRectMake(100, 50, 100, 100)];
   assertThat([self.layout layoutAttributesForDecorationViewOfKind:KEZCollectionViewTableLayoutDecorationViewCornerCell atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]], equalTo(expected));
 }
 
 - (void) testLayoutAttributesForDecorationViewCellCorner_withoutStickyHeaders_whenMoved_remainsInPosition {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3, @1, @2] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:NO contentInsets:UIEdgeInsetsZero cornerCell:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3, @1, @2] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:nil contentInsets:UIEdgeInsetsZero cornerCell:YES];
   [self moveCollectionViewToOffset:CGPointMake(100, 50)];
   UICollectionViewLayoutAttributes *expected = [self cellCornerLayoutAttributesWithFrame:CGRectMake(0, 0, 100, 100)];
   assertThat([self.layout layoutAttributesForDecorationViewOfKind:KEZCollectionViewTableLayoutDecorationViewCornerCell atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]], equalTo(expected));
 }
 
 - (void) testLayoutAttributesForDecorationViewCellCorner_withStickyHeaders_withInsets_whenMoved_sticksToBoundsAndInset {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3, @1, @2] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:YES contentInsets:UIEdgeInsetsMake(50, 150, 0, 0) cornerCell:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@3, @1, @2] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) } contentInsets:UIEdgeInsetsMake(50, 150, 0, 0) cornerCell:YES];
   [self moveCollectionViewToOffset:CGPointMake(100, 50)];
   UICollectionViewLayoutAttributes *expected = [self cellCornerLayoutAttributesWithFrame:CGRectMake(250, 100, 100, 100)];
   assertThat([self.layout layoutAttributesForDecorationViewOfKind:KEZCollectionViewTableLayoutDecorationViewCornerCell atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]], equalTo(expected));
@@ -521,7 +521,7 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
 }
 
 - (void) testLayoutAttributesForElementsInRect_withSupplementaryViews_includesProperAttributesPass1 {
-  [self configureLayoutWithCellSize:CGSizeMake(200, 200) withRows:@[@2, @1, @4, @2] columnHeaderHeight:50.0f rowHeaderWidth:100.0f stickyHeaders:NO contentInsets:UIEdgeInsetsZero cornerCell:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200, 200) withRows:@[@2, @1, @4, @2] columnHeaderHeight:50.0f rowHeaderWidth:100.0f stickyHeaders:nil contentInsets:UIEdgeInsetsZero cornerCell:YES];
   
   UICollectionViewLayoutAttributes *expectedColumnHeader0 = [self columnHeaderLayoutAttributesWithColumn:0 withFrame:CGRectMake(100.0f, 0.0f, 200.0f, 50.0f)];
   UICollectionViewLayoutAttributes *expectedRowHeader0 = [self rowHeaderLayoutAttributesWithRow:0 withFrame:CGRectMake(0.0f, 50.0f, 100.0f, 200.0f)];
@@ -571,27 +571,27 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
 
 #pragma mark With Sticky Headers
 - (void) testShouldInvalidateForBoundsChange_withStickyHeaders_withRowHeaders_whenMovedHorizontally_requiresLayoutInvalidation {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@2, @1, @50] columnHeaderHeight:0 rowHeaderWidth:50.0f stickyHeaders:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@2, @1, @50] columnHeaderHeight:0 rowHeaderWidth:50.0f stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) }];
   assertThatBool([self.layout shouldInvalidateLayoutForBoundsChange:CGRectMake(100, 0, 1000, 1000)], equalToBool(YES));
 }
 
 - (void) testShouldInvalidateForBoundsChange_withStickyHeaders_withRowHeaders_whenMovedVertically_doesntRequireInvalidation {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@2, @1, @50] columnHeaderHeight:0 rowHeaderWidth:50.0f stickyHeaders:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@2, @1, @50] columnHeaderHeight:0 rowHeaderWidth:50.0f stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) }];
   assertThatBool([self.layout shouldInvalidateLayoutForBoundsChange:CGRectMake(0, 100, 1000, 1000)], equalToBool(NO));
 }
 
 - (void) testShouldInvalidateForBoundsChange_withStickyHeaders_withColumnHeaders_whenMovedVertically_requiresLayoutInvalidation {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@2, @1, @50] columnHeaderHeight:100.0f rowHeaderWidth:0.0f stickyHeaders:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@2, @1, @50] columnHeaderHeight:100.0f rowHeaderWidth:0.0f stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) }];
   assertThatBool([self.layout shouldInvalidateLayoutForBoundsChange:CGRectMake(0, 100, 1000, 1000)], equalToBool(YES));
 }
 
 - (void) testShouldInvalidateForBoundsChange_withStickyHeaders_withColumnHeaders_whenMovedHorizontally_doesntRequireInvalidation {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@2, @1, @50] columnHeaderHeight:100.0f rowHeaderWidth:0.0f stickyHeaders:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@2, @1, @50] columnHeaderHeight:100.0f rowHeaderWidth:0.0f stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) }];
   assertThatBool([self.layout shouldInvalidateLayoutForBoundsChange:CGRectMake(100, 0, 1000, 1000)], equalToBool(NO));
 }
 
 - (void) testShouldInvalidateForBoundsChange_withStickyHeaders_withHeaders_whenMoved_requiresLayoutInvalidation {
-  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@2, @1, @50] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:YES];
+  [self configureLayoutWithCellSize:CGSizeMake(200.0f, 200.0f) withRows:@[@2, @1, @50] columnHeaderHeight:100.0f rowHeaderWidth:100.0f stickyHeaders:@{ @"columnHeaderStickType" : @(KEZCollectionViewTableLayoutHeaderStickAlways), @"rowHeaderStickType": @(KEZCollectionViewTableLayoutHeaderStickAlways) }];
   assertThatBool([self.layout shouldInvalidateLayoutForBoundsChange:CGRectMake(100, 100, 1000, 1000)], equalToBool(YES));
 }
 
@@ -601,27 +601,29 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
 }
 
 - (void) configureLayoutWithCellSize:(CGSize)size withRows:(NSArray *)rows columnHeaderHeight:(CGFloat)columnHeaderHeight rowHeaderWidth:(CGFloat)rowHeaderWidth {
-  [self configureLayoutWithCellSize:size withRows:rows columnHeaderHeight:columnHeaderHeight rowHeaderWidth:rowHeaderWidth stickyHeaders:NO];
+  [self configureLayoutWithCellSize:size withRows:rows columnHeaderHeight:columnHeaderHeight rowHeaderWidth:rowHeaderWidth stickyHeaders:nil];
 }
 
-- (void) configureLayoutWithCellSize:(CGSize)size withRows:(NSArray *)rows columnHeaderHeight:(CGFloat)columnHeaderHeight rowHeaderWidth:(CGFloat)rowHeaderWidth stickyHeaders:(BOOL)stickyHeaders {
+- (void) configureLayoutWithCellSize:(CGSize)size withRows:(NSArray *)rows columnHeaderHeight:(CGFloat)columnHeaderHeight rowHeaderWidth:(CGFloat)rowHeaderWidth stickyHeaders:(NSDictionary *)stickyHeaders {
   [self configureLayoutWithCellSize:size withRows:rows columnHeaderHeight:columnHeaderHeight rowHeaderWidth:rowHeaderWidth stickyHeaders:stickyHeaders contentInsets:UIEdgeInsetsZero];
 }
 
-- (void) configureLayoutWithCellSize:(CGSize)size withRows:(NSArray *)rows columnHeaderHeight:(CGFloat)columnHeaderHeight rowHeaderWidth:(CGFloat)rowHeaderWidth stickyHeaders:(BOOL)stickyHeaders contentInsets:(UIEdgeInsets)contentInsets {
+- (void) configureLayoutWithCellSize:(CGSize)size withRows:(NSArray *)rows columnHeaderHeight:(CGFloat)columnHeaderHeight rowHeaderWidth:(CGFloat)rowHeaderWidth stickyHeaders:(NSDictionary *)stickyHeaders contentInsets:(UIEdgeInsets)contentInsets {
   [self configureLayoutWithCellSize:size withRows:rows columnHeaderHeight:columnHeaderHeight rowHeaderWidth:rowHeaderWidth stickyHeaders:stickyHeaders contentInsets:contentInsets cornerCell:NO];
 }
 
-- (void) configureLayoutWithCellSize:(CGSize)size withRows:(NSArray *)rows columnHeaderHeight:(CGFloat)columnHeaderHeight rowHeaderWidth:(CGFloat)rowHeaderWidth stickyHeaders:(BOOL)stickyHeaders contentInsets:(UIEdgeInsets)contentInsets cornerCell:(BOOL)cornerCell {
+- (void) configureLayoutWithCellSize:(CGSize)size withRows:(NSArray *)rows columnHeaderHeight:(CGFloat)columnHeaderHeight rowHeaderWidth:(CGFloat)rowHeaderWidth stickyHeaders:(NSDictionary *)stickyHeaders contentInsets:(UIEdgeInsets)contentInsets cornerCell:(BOOL)cornerCell {
   [self configureLayoutWithCellSize:size withRows:rows columnHeaderHeight:columnHeaderHeight rowHeaderWidth:rowHeaderWidth stickyHeaders:stickyHeaders contentInsets:contentInsets cornerCell:cornerCell cornerCellAsNib:NO];
 }
 
 
-- (void) configureLayoutWithCellSize:(CGSize)size withRows:(NSArray *)rows columnHeaderHeight:(CGFloat)columnHeaderHeight rowHeaderWidth:(CGFloat)rowHeaderWidth stickyHeaders:(BOOL)stickyHeaders contentInsets:(UIEdgeInsets)contentInsets cornerCell:(BOOL)cornerCell cornerCellAsNib:(BOOL)cornerCellAsNib {
+- (void) configureLayoutWithCellSize:(CGSize)size withRows:(NSArray *)rows columnHeaderHeight:(CGFloat)columnHeaderHeight rowHeaderWidth:(CGFloat)rowHeaderWidth stickyHeaders:(NSDictionary *)stickyHeaders contentInsets:(UIEdgeInsets)contentInsets cornerCell:(BOOL)cornerCell cornerCellAsNib:(BOOL)cornerCellAsNib {
   [self setupWithoutDelegate];
   self.collectionView.contentInset = contentInsets;
   
-  self.layout.stickyHeaders = stickyHeaders;
+  //self.layout.stickyHeaders = stickyHeaders;
+  self.layout.columnHeaderStickType = [stickyHeaders[@"columnHeaderStickType"] integerValue];
+  self.layout.rowHeaderStickType = [stickyHeaders[@"rowHeaderStickType"] integerValue];
   self.layout.cellSize = size;
   
   if (columnHeaderHeight > 0)
@@ -710,7 +712,9 @@ static NSString * const kKEZHeaderRowSizes = @"kKEZHeaderRowSizes";
   id mockDataSource = [OCMockObject mockForProtocol:@protocol(UICollectionViewDataSource)];
   [[[mockDataSource stub] andReturnValue:@(rows.count)] numberOfSectionsInCollectionView:self.collectionView];
   [rows enumerateObjectsUsingBlock:^(NSNumber *rowCount, NSUInteger idx, BOOL *stop) {
-    [[[mockDataSource stub] andReturnValue:rowCount] collectionView:self.collectionView numberOfItemsInSection:idx];
+    // this line is neccessary to match signature type
+    NSNumber *r = [NSNumber numberWithInteger:rowCount.integerValue];
+    [[[mockDataSource stub] andReturnValue:r] collectionView:self.collectionView numberOfItemsInSection:idx];
   }];
   self.collectionView.dataSource = mockDataSource;
 }
