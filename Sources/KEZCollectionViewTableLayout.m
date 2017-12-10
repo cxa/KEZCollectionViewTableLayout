@@ -328,6 +328,10 @@ NSString * const KEZCollectionViewTableLayoutDecorationViewCornerCell = @"KEZCol
           yOffset = 0;
         } else {
           yOffset = CGRectGetMinY(self.collectionView.bounds) + self.collectionView.contentInset.top;
+          if (@available(iOS 11.0, *)) {
+            yOffset += self.collectionView.adjustedContentInset.top;
+          }
+          
           if (self.columnHeaderStickType == KEZCollectionViewTableLayoutHeaderStickWhenOverlap) {
             yOffset = yOffset > 0 ? yOffset : 0;
           }
@@ -368,6 +372,9 @@ NSString * const KEZCollectionViewTableLayoutDecorationViewCornerCell = @"KEZCol
       y = 0;
     } else {
       y = CGRectGetMinY(self.collectionView.bounds) + self.collectionView.contentInset.top;
+      if (@available(iOS 11.0, *)) {
+        y += self.collectionView.adjustedContentInset.top;
+      }
       if (self.columnHeaderStickType == KEZCollectionViewTableLayoutHeaderStickWhenOverlap) {
         y = y > 0 ? y : 0;
       }
